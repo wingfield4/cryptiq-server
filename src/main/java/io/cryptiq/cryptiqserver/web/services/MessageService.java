@@ -43,6 +43,10 @@ public class MessageService {
 				.findById(message.getSentTo())
 				.orElse(null);
 		
+		var sentFromUser = userRepository
+				.findById(message.getSentFrom())
+				.orElse(null);
+		
 		if(user == null)
 		{
 			//TODO uh oh handle this error
@@ -51,7 +55,7 @@ public class MessageService {
 		var firebaseMessage = com.google.firebase.messaging.Message.builder()
 				.setNotification(Notification.builder()
 						.setTitle("Cryptiq Message")
-						.setBody("New message from " + user.getFormattedName())
+						.setBody("New message from " + sentFromUser.getFormattedName())
 						.build())
 				//message data
 			    .putData("id", message.getId().toString())
